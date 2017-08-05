@@ -1,3 +1,3 @@
 # send_arp
 
-* ARP Spoofing
+* Infection target ARP table
