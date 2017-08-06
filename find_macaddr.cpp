@@ -7,7 +7,14 @@
 #include <stdlib.h>
 #include "find_macaddr.hpp"
 
-void mac_eth0(char MAC_str[13])
+information::information(){
+	mac_eth0(this->My_MACaddr);
+}
+
+information::~information(){
+}
+
+void information::mac_eth0(char MAC_str[13])
 {
     #define HWADDR_len 6
     int s,i;

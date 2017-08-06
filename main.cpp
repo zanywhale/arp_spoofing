@@ -11,7 +11,7 @@ int main(int argc, char *argv[], char *envp[])
 		exit(0);
 	}
 	
-	unsigned char mac[13];
-	mac_eth0(mac);
+	information info = information();
+	printf("%s\n",info.My_MACaddr);
 	return 0;
 }
