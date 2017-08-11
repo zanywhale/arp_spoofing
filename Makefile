@@ -1,12 +1,14 @@
 #Makefile
 all: send_arp
 
-send_arp: main.o find_macaddr.o
-	g++ -o send_arp main.o find_macaddr.o 
+send_arp: main.o info_network.o
+	g++ -o send_arp main.o info_network.o -Wall
+	rm -f *.o
 
-main.o: find_macaddr.hpp main.cpp 
+main.o: info_network.hpp main.cpp 
 
-find_macaddr.o: find_macaddr.hpp find_macaddr.cpp
+info_network.o: info_network.hpp info_network.cpp
 
 clean:
 	rm -f *.o
+	rm -f send_arp
