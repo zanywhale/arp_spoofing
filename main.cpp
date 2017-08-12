@@ -11,8 +11,10 @@ int main(int argc, char *argv[], char *envp[])
     verification *verif = new verification(argv[1], argv[2], argv[3]);
     if(argc != 4) // Have to use four arguments
         verif->check_argc();
-    else
+    else{ // check interface and ip addr
         verif->check_interface(argv[1]);
+        verif->check_ipaddr(argv[2], argv[3]);
+    }
     delete verif;
     // end verification
 
