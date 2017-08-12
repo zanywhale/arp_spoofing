@@ -2,6 +2,7 @@
 
 * C++
 * Infection target ARP table
+* Compile with [C++11]
 * Usage
 
 ```sh
