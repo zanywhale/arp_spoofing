@@ -45,7 +45,6 @@ void verification::check_interface(char *interface)
 
 void verification::check_ipaddr(char ip1[16], char ip2[16])
 {
-    // regex reg("([0-2]).([0-9]).([0-9]).([0-9])");
     regex reg("^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$");
     smatch m1;
     smatch m2;
