@@ -47,11 +47,18 @@ void verification::check_ipaddr(char ip1[16], char ip2[16])
 {
     // regex reg("([0-2]).([0-9]).([0-9]).([0-9])");
     regex reg("^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$");
-    smatch m;
+    smatch m1;
+    smatch m2;
     std::string str1(ip1);
     std::string str2(ip2);
-    if( !regex_match(str1, m, reg) && !regex_match(str2, m, reg)){
+    if( !regex_match(str1, m1, reg)){
         cout << "\033[1;34mError : ip address is strange... Check it plz.\033[0m" << endl;
+        check_argc();
+        exit(1);
+    }
+    if( !regex_match(str2, m2, reg)){
+        cout << "\033[1;34mError : ip address is strange... Check it plz.\033[0m" << endl;
+        check_argc();
         exit(1);
     }
 }
