@@ -2,14 +2,18 @@
 all: send_arp
 
 send_arp: main.o info_network.o verification.o
-	g++ -o send_arp main.o info_network.o verification.o -Wall -lpcap
+	g++ -o send_arp main.o info_network.o verification.o -Wall -lpcap -std=c++11
 	rm -f *.o
+	rm -f *.gch
 
-main.o: info_network.hpp main.cpp 
+main.o: info_network.hpp verification.hpp main.cpp
+	g++ -c info_network.hpp verification.hpp main.cpp -std=c++11
 
 info_network.o: info_network.hpp info_network.cpp
+	g++ -c info_network.hpp info_network.cpp -std=c++11
 
 verification.o: verification.hpp verification.cpp
+	g++ -c verification.hpp verification.cpp -std=c++11
 
 clean:
 	rm -f *.o
