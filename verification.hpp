@@ -5,10 +5,9 @@ class verification{
 	public:
 		verification(char argv1[10], char argv2[16], char argv3[16]);
 		virtual ~verification();
-		void check_interface(char *interface);
 		void check_argc();
-	private:
-
+		void check_interface(char *interface);
+		void check_ipaddr(char ip1[16], char ip2[16]);
 };
 
 #endif
