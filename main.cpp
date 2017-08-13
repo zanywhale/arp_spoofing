@@ -7,18 +7,23 @@ using namespace std;
 
 int main(int argc, char *argv[], char *envp[])
 {
-    // start verification
+    // start verification // check also interface and ip addr
     verification *verif = new verification(argv[1], argv[2], argv[3]);
-    if(argc != 4) // Have to use four arguments
+    if(argc != 4)
         verif->check_argc();
-    else{ // check interface and ip addr
+    else{
         verif->check_interface(argv[1]);
         verif->check_ipaddr(argv[2], argv[3]);
     }
     delete verif;
     // end verification
 
-    info_network info = info_network(argv[1], argv[2], argv[3]);
-    info.print_status();
+    // get info
+    arp_packet arp = arp_packet(argv[1], argv[2], argv[3]);
+    // get victim's MAC Address
+    // info.print_status();
+    arp.print_status();
+    arp.arp_request();
+    // infect victim ARP table
     return 0;
 }

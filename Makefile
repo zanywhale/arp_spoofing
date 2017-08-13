@@ -9,10 +9,10 @@ send_arp: main.o info_network.o verification.o
 main.o: info_network.hpp verification.hpp main.cpp
 	g++ -c info_network.hpp verification.hpp main.cpp
 
-info_network.o: info_network.hpp info_network.cpp
-	g++ -c info_network.hpp info_network.cpp
+info_network.o: info_network.hpp info_network.cpp net_header.hpp
+	g++ -c info_network.hpp info_network.cpp net_header.hpp
 
-verification.o: verification.hpp verification.cpp
+verification.o: verification.hpp verification.cpp 
 	g++ -c verification.hpp verification.cpp -std=c++11
 
 clean:
