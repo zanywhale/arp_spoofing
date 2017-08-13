@@ -22,8 +22,9 @@ int main(int argc, char *argv[], char *envp[])
     arp_packet arp = arp_packet(argv[1], argv[2], argv[3]);
     // get victim's MAC Address
     // info.print_status();
-    arp.print_status();
     arp.arp_request();
+    arp.arp_capture();
+    arp.print_status();
     // infect victim ARP table
     return 0;
 }
