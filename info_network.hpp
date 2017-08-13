@@ -6,16 +6,17 @@ class info_network{
     public:
         info_network(char INTERFACE[10], char SENDER_IP[16], char TARGET_IP[16]);
         virtual ~info_network();
-        void find_mac_addr(char MAC_str[13], char user_interface[10]);
+        void find_mac_addr(unsigned char MAC_str[6], char user_interface[10]);
         void print_status();
     protected:
         char interface[10];
-        char my_MACaddr[13];
-        char my_IPaddr[13];
+        unsigned char my_MACaddr[6];
+        int my_IPaddr;
         char sender_IP[16];
-        char sender_MACaddr[13];
+        unsigned char sender_MACaddr[6];
         char target_IP[16];
-        char target_MACaddr[13];
+        unsigned char target_MACaddr[6];
+        char errbuf[PCAP_ERRBUF_SIZE];
     private:
 };
 
@@ -25,7 +26,7 @@ class arp_packet : public info_network{
         virtual ~arp_packet();
         void arp_request();
         void arp_reply();
-    private:
+        void arp_capture();
 };
 
 #endif
