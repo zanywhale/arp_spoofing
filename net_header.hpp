@@ -1,7 +1,9 @@
 #ifndef NET_HEADER_HPP
 #define NET_HEADER_HPP
-
 #include <stdint.h>
+#include <arpa/inet.h>
+#include <pcap.h>
+
 #ifndef ETHERTYPE_PUP
 #define ETHERTYPE_PUP           0x0200  /* PUP protocol */
 #endif
@@ -27,6 +29,13 @@
 #define ETHERTYPE_LOOPBACK      0x9000  /* used to test interfaces */
 #endif
 #define ETHERNET_ALEN 6
+
+#ifndef ARP_REQUEST
+#define ARP_REQUEST 1
+#endif
+#ifndef ARP_REPLY
+#define ARP_REPLY 2
+#endif
 
 #if __UAPI_DEF_IN_IPPROTO
 enum {
