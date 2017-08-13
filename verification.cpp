@@ -19,7 +19,7 @@ void verification::check_argc()
 void verification::check_interface(char *interface) 
 {
     pcap_if_t *devs;
-    char errbuf[40];
+    char errbuf[PCAP_ERRBUF_SIZE];
     int check = 0;
     if (-1 == pcap_findalldevs(&devs, errbuf))
     {
