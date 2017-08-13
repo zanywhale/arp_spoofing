@@ -106,9 +106,9 @@ typedef struct _arp{
     uint8_t p_len;
     uint16_t oper;
     uint8_t sender_MAC[6];
-    uint8_t sender_IP[6];
+    uint8_t sender_IP[4];
     uint8_t target_MAC[6];
-    uint8_t target_IP[6];
+    uint8_t target_IP[4];
 }__attribute__((packed))Arp_H;
 
 typedef struct _ip{

