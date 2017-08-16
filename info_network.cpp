@@ -112,7 +112,7 @@ std::thread arp_packet::arp_capture()
                     for(int i = 0; i < 6; i++)
                         printf("%02X",(arp_h->sender_MAC[i]));
                     cout << endl;
-                    memcpy(this->sender_MACaddr, arp_h->sender_MAC, 6);
+                    memcpy(this->target_MACaddr, arp_h->sender_MAC, 6);
                     break;
                 }
             }
@@ -130,7 +130,7 @@ void arp_packet::arp_reply()
     cout << "[+] ARP_REPLY... Change ARP Table!" << endl;
 
     Ethernet_H* eth_h = (Ethernet_H *)packet;
-    memcpy(eth_h->dest, sender_MACaddr, 6);
+    memcpy(eth_h->dest, target_MACaddr, 6);
     memcpy(eth_h->src, my_MACaddr, 6);
     eth_h->type = ntohs(ETHERTYPE_ARP);
 
@@ -141,7 +141,7 @@ void arp_packet::arp_reply()
     arp_h->p_len = 4;
     arp_h->oper = ntohs(ARP_REPLY);
     memcpy(arp_h->sender_MAC, this->my_MACaddr, 6);
-    memcpy(arp_h->target_MAC, this->sender_MACaddr, 6);
+    memcpy(arp_h->target_MAC, this->target_MACaddr, 6);
     *(uint32_t *)arp_h->sender_IP = inet_addr(this->sender_IP);
     *(uint32_t *)arp_h->target_IP = inet_addr(this->target_IP);
 
