@@ -3,6 +3,7 @@
 * C++
 * Infection target ARP table
 * Compile with [C++11]
+* It must run as root
 * Usage
 
 ```sh
