@@ -35,3 +35,18 @@ target_ip       : 192.168.181.2
 [+] Done! Check it now!
 ......
 ```
+
+Result
+```sh
+zanywhale@ubuntu:~$ arp
+Address                  HWtype  HWaddress           Flags Mask            Iface
+192.168.181.2            ether   00:50:56:e3:4c:8f   C                     ens33
+192.168.181.1            ether   00:50:56:c0:00:08   C                     ens33
+zanywhale@ubuntu:~$ 
+zanywhale@ubuntu:~$ arp
+Address                  HWtype  HWaddress           Flags Mask            Iface
+192.168.181.2            ether   00:0c:29:01:ae:f4   C                     ens33
+192.168.181.1            ether   00:50:56:c0:00:08   C                     ens33
+
+```
+
