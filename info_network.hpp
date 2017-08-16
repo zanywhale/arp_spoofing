@@ -2,6 +2,7 @@
 #define INFO_NETWORK_HPP
 #include "net_header.hpp"
 #include <pcap.h>
+#include <stdint.h>
 
 class info_network{
     public:
@@ -12,7 +13,7 @@ class info_network{
     protected:
         char interface[10];
         unsigned char my_MACaddr[6];
-        int my_IPaddr;
+        uint32_t my_IPaddr;
         char sender_IP[16];
         unsigned char sender_MACaddr[6];
         char target_IP[16];
