@@ -6,13 +6,6 @@
 #include <string.h>
 using namespace std;
 
-void info_network::check_argc()
-{
-    cout << "\033[1;32mUsage: send_arp <interface> <sender(victim) ip> <target ip> \033[0m" << endl <<\
-            "\033[1;31mEx)send_arp wlan0 192.168.10.2 192.168.10.1\033[0m\n";
-    exit(0);
-}
-
 void info_network::check_interface(char *interface) 
 {
     pcap_if_t *devs;
@@ -35,7 +28,8 @@ void info_network::check_interface(char *interface)
 
     if(!check){
         cout << "\033[1;34mError : interface is not exist... Check it plz.\033[0m" << endl;
-        check_argc();
+        cout << "\033[1;32mUsage: send_arp <interface> <sender(victim) ip> <target ip> \033[0m" << endl <<\
+                "\033[1;31mEx)send_arp wlan0 192.168.10.2 192.168.10.1\033[0m\n";
         exit(1);
     }
 }
@@ -49,12 +43,14 @@ void info_network::check_ipaddr(char ip1[16], char ip2[16])
     std::string str2(ip2);
     if( !regex_match(str1, m1, reg)){
         cout << "\033[1;34mError : ip address is strange... Check it plz.\033[0m" << endl;
-        check_argc();
+        cout << "\033[1;32mUsage: send_arp <interface> <sender(victim) ip> <target ip> \033[0m" << endl <<\
+                "\033[1;31mEx)send_arp wlan0 192.168.10.2 192.168.10.1\033[0m\n";
         exit(1);
     }
     if( !regex_match(str2, m2, reg)){
         cout << "\033[1;34mError : ip address is strange... Check it plz.\033[0m" << endl;
-        check_argc();
+        cout << "\033[1;32mUsage: send_arp <interface> <sender(victim) ip> <target ip> \033[0m" << endl <<\
+                "\033[1;31mEx)send_arp wlan0 192.168.10.2 192.168.10.1\033[0m\n";
         exit(1);
     }
 }
