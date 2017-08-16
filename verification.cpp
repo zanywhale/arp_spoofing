@@ -1,22 +1,19 @@
-#include "verification.hpp"
 #include <pcap.h>
 #include <iostream>
+#include "info_network.hpp"
 #include <regex>
 #include <stdlib.h>
 #include <string.h>
 using namespace std;
 
-verification::verification(char argv1[10], char argv2[16], char argv3[16]){}
-verification::~verification(){}
-
-void verification::check_argc()
+void info_network::check_argc()
 {
     cout << "\033[1;32mUsage: send_arp <interface> <sender(victim) ip> <target ip> \033[0m" << endl <<\
             "\033[1;31mEx)send_arp wlan0 192.168.10.2 192.168.10.1\033[0m\n";
     exit(0);
 }
 
-void verification::check_interface(char *interface) 
+void info_network::check_interface(char *interface) 
 {
     pcap_if_t *devs;
     char errbuf[PCAP_ERRBUF_SIZE];
@@ -43,7 +40,7 @@ void verification::check_interface(char *interface)
     }
 }
 
-void verification::check_ipaddr(char ip1[16], char ip2[16])
+void info_network::check_ipaddr(char ip1[16], char ip2[16])
 {
     regex reg("^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$");
     smatch m1;

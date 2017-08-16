@@ -9,18 +9,16 @@ using namespace std;
 int main(int argc, char *argv[], char *envp[])
 {
     // start verification // check also interface and ip addr
-    verification *verif = new verification(argv[1], argv[2], argv[3]);
+    arp_packet arp(argv[1], argv[2], argv[3]);
     if(argc != 4)
-        verif->check_argc();
+        arp.check_argc();
     else{
-        verif->check_interface(argv[1]);
-        verif->check_ipaddr(argv[2], argv[3]);
+        arp.check_interface(argv[1]);
+        arp.check_ipaddr(argv[2], argv[3]);
     }
-    delete verif;
     // end verification
 
     // Constructor
-    arp_packet arp(argv[1], argv[2], argv[3]);
 
     // get victim's MAC Address
     arp.arp_request();
