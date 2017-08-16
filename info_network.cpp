@@ -49,11 +49,11 @@ void info_network::print_status()
     cout << endl;
     cout << "my_IP Address   : " << ip_addr_tmp << endl;
     cout << "sender_ip       : " << sender_IP << endl;
-    cout << "sender_mac      : ";
-    for(int i = 0; i < 6 ; i++)
-        printf("%02X",(sender_MACaddr[i]));
-    cout << endl;
     cout << "target_ip       : " << target_IP << endl;
+    cout << "target_mac      : ";
+    for(int i = 0; i < 6 ; i++)
+        printf("%02X",(target_MACaddr[i]));
+    cout << endl;
     cout << "\033[1;32m===========================================\033[0m" << endl;
 }
 
@@ -71,7 +71,7 @@ std::thread arp_packet::arp_request()
 {
     unsigned char packet[1514];
 
-    cout << "[+] ARP_Request(BroadCast)... then get victim's MAC address!" << endl;
+    cout << "[+] ARP_Request(BroadCast)... then get target's MAC address!" << endl;
     Ethernet_H* eth_h = (Ethernet_H *)packet;
     memcpy(eth_h->dest, "\xff\xff\xff\xff\xff\xff", 6);
     memcpy(eth_h->src, my_MACaddr, 6);
@@ -108,7 +108,7 @@ std::thread arp_packet::arp_capture()
             if(ntohs(eth_h->type) == ETHERTYPE_ARP){
                 Arp_H* arp_h = (Arp_H *)(packet+sizeof(Ethernet_H));
                 if ((ntohs(arp_h->oper) == ARP_REPLY) && (*(uint32_t *)arp_h->sender_IP == inet_addr(this->target_IP))){
-                    cout << "[+] Find sender_IP's MAC addr : ";
+                    cout << "[+] Find target_IP's MAC addr : ";
                     for(int i = 0; i < 6; i++)
                         printf("%02X",(arp_h->sender_MAC[i]));
                     cout << endl;
