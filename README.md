@@ -4,6 +4,7 @@
 * Infection target ARP table
 * Compile with [C++11]
 * It must run as root
+* Environment : Ubuntu 16.04.02 LTS
 * Usage
 
 ```sh
