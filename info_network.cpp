@@ -61,7 +61,10 @@ arp_packet::arp_packet(char INTERFACE[10], char SENDER_IP[16], char TARGET_IP[16
 {
     this->handle = pcap_open_live(this->interface, BUFSIZ, 1, 1000, this->errbuf);
 }
-arp_packet::~arp_packet(){};
+arp_packet::~arp_packet()
+{
+    pcap_close(this->handle);
+}
 
 void arp_packet::arp_request()
 {
@@ -117,8 +120,6 @@ void arp_packet::arp_capture()
             }
         }
     }
-    /* And close the session */
-    pcap_close(this->handle);
 }
 
 void arp_packet::arp_reply()
