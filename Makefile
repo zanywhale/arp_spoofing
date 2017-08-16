@@ -7,7 +7,7 @@ send_arp: main.o info_network.o verification.o
 	rm -f *.gch
 
 main.o: info_network.hpp main.cpp
-	g++ -c info_network.hpp main.cpp
+	g++ -c info_network.hpp main.cpp -std=c++11
 
 info_network.o: info_network.hpp info_network.cpp net_header.hpp
 	g++ -c info_network.hpp info_network.cpp net_header.hpp -std=c++11

@@ -2,6 +2,7 @@
 #define INFO_NETWORK_HPP
 #include "net_header.hpp"
 #include <pcap.h>
+#include <thread>
 #include <stdint.h>
 
 class info_network{
@@ -29,9 +30,9 @@ class arp_packet : public info_network{
     public:
         arp_packet(char INTERFACE[10], char SENDER_IP[16], char TARGET_IP[16]);
         virtual ~arp_packet();
-        void arp_request();
+        std::thread arp_request();
         void arp_reply();
-        void arp_capture();
+        std::thread arp_capture();
     private:
         pcap_t *handle;
 };

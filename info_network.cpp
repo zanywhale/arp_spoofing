@@ -7,6 +7,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <pcap.h>
+#include <thread>
 #include "info_network.hpp"
 #include "net_header.hpp"
 #define HWADDR_len 6
@@ -66,7 +67,7 @@ arp_packet::~arp_packet()
     pcap_close(this->handle);
 }
 
-void arp_packet::arp_request()
+std::thread arp_packet::arp_request()
 {
     unsigned char packet[1514];
 
@@ -91,7 +92,7 @@ void arp_packet::arp_request()
     cout << "[+] ARP_Request is done." << endl;
 }
 
-void arp_packet::arp_capture()
+std::thread arp_packet::arp_capture()
 {
     
     struct pcap_pkthdr *header; /* The header that pcap gives us */
