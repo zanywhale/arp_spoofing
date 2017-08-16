@@ -140,10 +140,10 @@ void arp_packet::arp_reply()
     arp_h->h_len = 6;
     arp_h->p_len = 4;
     arp_h->oper = ntohs(ARP_REPLY);
-    memcpy(arp_h->sender_MAC, my_MACaddr, 6);
-    memcpy(arp_h->target_MAC, sender_MACaddr, 6) ;
-    *(uint32_t *)arp_h->sender_IP = inet_addr(target_IP);
-    *(uint32_t *)arp_h->target_IP = inet_addr(sender_IP);
+    memcpy(arp_h->sender_MAC, this->my_MACaddr, 6);
+    memcpy(arp_h->target_MAC, this->sender_MACaddr, 6);
+    *(uint32_t *)arp_h->sender_IP = inet_addr(this->sender_IP);
+    *(uint32_t *)arp_h->target_IP = inet_addr(this->target_IP);
 
     pcap_sendpacket(this->handle, packet, sizeof(Ethernet_H)+sizeof(Arp_H));
     cout << "[+] ARP_REPLY is done." << endl;
