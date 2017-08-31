@@ -5,18 +5,18 @@
 * C++
 * Compile with [C++11]
 * It must run as root
-* Environment : Ubuntu 16.04.02 LTS
+* Test environment : Ubuntu 16.04.02 LTS
 
 
 ## Usage ##
 ```sh
-Usage: send_arp <interface> <sender(victim) ip> <target ip>
-Ex)send_arp eth0 192.168.10.2 192.168.10.123
+Usage: arp_spoofing <interface> <sender(victim) ip> <target ip>
+Ex)arp_spoofing eth0 192.168.10.2 192.168.10.123
 ```
 
-Example)
+Example
 ```sh
-zanywhale@ubuntu:~/git/send_arp$ sudo ./send_arp ens33 192.168.181.2 192.168.181.166
+zanywhale@ubuntu:~/git/arp_spoofing$ sudo ./arp_spoofing ens33 192.168.181.2 192.168.181.166
 [sudo] password for zanywhale:
 [+] ARP_Request(BroadCast)... then get target's MAC address!
 [+] ARP_Request is done.
