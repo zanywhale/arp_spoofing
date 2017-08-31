@@ -1,6 +1,6 @@
 # APR_Spoofing
 
-### info ###
+## info ##
 * ARP Spoofing
 * C++
 * Compile with [C++11]
@@ -8,8 +8,7 @@
 * Environment : Ubuntu 16.04.02 LTS
 
 
-### Usage ###
-
+## Usage ##
 ```sh
 Usage: send_arp <interface> <sender(victim) ip> <target ip>
 Ex)send_arp eth0 192.168.10.2 192.168.10.123
@@ -40,7 +39,7 @@ target_mac      : 000C29EF6086
 ......
 ```
 
-### Result ###
+## Result ##
 ```sh
 zanywhale@ubuntu:~$ arp
 Address                  HWtype  HWaddress           Flags Mask            Iface
