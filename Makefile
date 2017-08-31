@@ -1,8 +1,8 @@
 #Makefile
-all: send_arp
+all: arp_spoofing
 
-send_arp: main.o info_network.o verification.o
-	g++ -o send_arp main.o info_network.o verification.o -Wall -lpcap
+arp_spoofing: main.o info_network.o verification.o
+	g++ -o arp_spoofing main.o info_network.o verification.o -Wall -lpcap
 	rm -f *.o
 	rm -f *.gch
 
@@ -17,4 +17,4 @@ verification.o: info_network.hpp verification.cpp
 
 clean:
 	rm -f *.o
-	rm -f send_arp
+	rm -f arp_spoofing

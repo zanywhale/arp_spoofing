@@ -1,11 +1,14 @@
-# send_arp
+# APR_Spoofing
 
+### info ###
+* ARP Spoofing
 * C++
-* Infection target ARP table
 * Compile with [C++11]
 * It must run as root
 * Environment : Ubuntu 16.04.02 LTS
-* Usage
+
+
+### Usage ###
 
 ```sh
 Usage: send_arp <interface> <sender(victim) ip> <target ip>
@@ -37,7 +40,7 @@ target_mac      : 000C29EF6086
 ......
 ```
 
-Result
+### Result ###
 ```sh
 zanywhale@ubuntu:~$ arp
 Address                  HWtype  HWaddress           Flags Mask            Iface
